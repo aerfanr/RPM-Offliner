@@ -1,0 +1,44 @@
+echo "Welcome."
+echo "You are creating a offline rpm archive. This will download packages from
+the internet, and does not use local cache. Unless you copy them to download
+directory."
+
+echo -n "Enter name of the package you want to download: "
+read pname
+
+echo -n "Do you want to download packages to \"$PWD/$pname\" ?[y/n] "
+read dirChoice
+
+if [[ ${dirChoice,,} = "y" ]]; then
+    directory="$PWD/$pname"
+else
+    echo -n "Enter absolute download directory: "
+    read $directory
+fi
+
+echo -n "Enter target Fedora version number: "
+read version
+
+installroot="/tmp/offline-installroot/"
+mkdir $installroot
+
+echo "--- downloading"
+dnf install --downloadonly --installroot=$installroot --releasever=$version --downloaddir=$directory $pname -C
+
+echo "--- creating repo"
+createrepo --database $directory
+
+echo "--- configuring repo"
+echo "[offline-$pname]
+name=Fedora-$version - $pname
+baseurl=file://$directory
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-Fedora-$version" > /etc/yum.repos.d/offline-$pname.repo
+
+echo "--- verifying"
+dnf repoclosure --repoid=offline-$pname
+
+#echo "$pname" > offline-meta
+#scriptDir=dirname "$0"
+#cp $scriptDir/installer.sh $directory/installer.sh
