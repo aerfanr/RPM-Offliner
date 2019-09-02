@@ -1,3 +1,9 @@
+
+if [[ $EUID -ne 0 ]]; then
+    echo "This command has to be run as root"
+    exit 1
+fi
+
 echo "Welcome."
 echo "You are creating a offline rpm archive. This will download packages from
 the internet, and does not use local cache. Unless you copy them to download
@@ -23,7 +29,7 @@ installroot="/tmp/offline-installroot/"
 mkdir $installroot
 
 echo "--- downloading"
-dnf install --downloadonly --installroot=$installroot --releasever=$version --downloaddir=$directory $pname -C
+dnf install --downloadonly --installroot=$installroot --releasever=$version --downloaddir=$directory $pname
 
 echo "--- creating repo"
 createrepo --database $directory
@@ -39,6 +45,15 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-Fedora-$version" > /etc/yum.repos.d/o
 echo "--- verifying"
 dnf repoclosure --repoid=offline-$pname
 
-#echo "$pname" > offline-meta
-#scriptDir=dirname "$0"
-#cp $scriptDir/installer.sh $directory/installer.sh
+echo "--- creating installer"
+echo "$pname
+$version" > $directory/offline-meta
+scriptDir=$(dirname "$0")
+cp $scriptDir/installer.sh $directory/installer.sh
+chmod +x $directory/installer.sh
+
+echo "--- compressing packages"
+tar -cJf $pname.tar.xz $directory
+chmod 666 $pname.tar.xz
+
+echo "--- done"
