@@ -20,7 +20,7 @@ if [[ ${dirChoice,,} = "y" ]]; then
     directory="$PWD/$pname"
 else
     echo -n "Enter absolute download directory: "
-    read $directory
+    read directory
 fi
 
 echo -n "Enter target Fedora version number: "
