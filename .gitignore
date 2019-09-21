@@ -1,0 +1,8 @@
+rpmbuild/BUILD/rpm-offliner-1.1/debugfiles.list
+rpmbuild/BUILD/rpm-offliner-1.1/debuglinks.list
+rpmbuild/BUILD/rpm-offliner-1.1/debugsourcefiles.list
+rpmbuild/BUILD/rpm-offliner-1.1/debugsources.list
+rpmbuild/BUILD/rpm-offliner-1.1/elfbins.list
+rpmbuild/BUILD/rpm-offliner-1.1/installer.sh
+rpmbuild/BUILD/rpm-offliner-1.1/rpm-offliner
+rpmbuild/RPMS/noarch/rpm-offliner-1.1-1.fc30.noarch.rpm

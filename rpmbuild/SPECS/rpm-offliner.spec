@@ -1,6 +1,6 @@
 Name:           rpm-offliner
-Version:        1.0
-Release:        4%{?dist}
+Version:        1.1
+Release:        1%{?dist}
 Summary:        A tool for making offline rpm archives
 
 Group:          PackageManagment
@@ -8,7 +8,7 @@ BuildArch:      noarch
 Requires:       tar, dnf, createrepo, bash
 License:        GPLv3+
 URL:            https://gitlab.com/aerfanr/rpm-offliner
-Source0:        rpm-offliner-1.0.tar.gz
+Source0:        rpm-offliner-1.1.tar.gz
 
 %description
 A simple tool for making offline rpm archives and install them on fedora systems without internet access.
@@ -29,6 +29,8 @@ echo "boz"
 %{_bindir}/rpm-offliner
 
 %changelog
+* Sat Sep 21 2019 Amirerfan Rafati <erfan.rafati@outlook.com> - 1.1-1
+- Bug fix, rpm-offliner file changed, rpm-offliner.sh file removed
 * Wed Sep 4 2019 Amirerfan Rafati <erfan.rafati@outlook.com> - 1.0-4
 - Bug fix, installer.sh file channged
 * Wed Sep 4 2019 Amirerfan Rafati <erfan.rafati@outlook.com> - 1.0-3
